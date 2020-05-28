@@ -9,7 +9,6 @@ attachTypes = {'$helms':35, '$sail0':21,'$lamp_rear':29,'$lamp_front':28,'$ladde
 with open('speedboat.dump','r') as reader:
     lines = reader.readlines()
 
-foundPoints = 0
 for idx,line in enumerate(lines):
     for key in attachTypes:
         if key in line:
