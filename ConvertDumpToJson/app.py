@@ -16,18 +16,6 @@ slaveNameLookup = {
     'cruise_a': 1046
 }
 
-def calc_angle(v, axis):
-    angle = 0
-
-    if axis is 'x':
-        angle = v[0] / math.sqrt(v[0]**2 + v[1]**2 + v[2]**2)
-    elif axis is 'y':
-        angle = v[1] / math.sqrt(v[0]**2 + v[1]**2 + v[2]**2)
-    elif axis is 'z':
-        angle = v[2] / math.sqrt(v[0]**2 + v[1]**2 + v[2]**2)
-
-    return angle
-
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='cfg model to attach point convertor')
     parser.add_argument('--db', type=str, help='compact db file path')
@@ -69,13 +57,8 @@ if __name__=="__main__":
                     y = float(coords[1])
                     z = float(coords[2])
 
-                    # xRotation = [*map(lambda x: float(x), lines[idx+2].split('axisX(')[1].split(')')[0].split(' '))]
-                    # yRotation = [*map(lambda x: float(x), lines[idx+2].split('axisY(')[1].split(')')[0].split(' '))]
-                    # zRotation = [*map(lambda x: float(x), lines[idx+2].split('axisZ(')[1].split(')')[0].split(' '))]
-                    
                     data['AttachPoints'][attachTypes[key]] = {
                         "X":x,"Y":y,"Z":z
-                        # "RotationX": calc_angle(xRotation,'x') ,"RotationY": calc_angle(yRotation, 'y'),"RotationZ": calc_angle(zRotation, 'z')
                     }
                     
         output.append(data)
