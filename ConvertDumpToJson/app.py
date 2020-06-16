@@ -6,7 +6,7 @@ import argparse
 import math
 import re
 
-slaveNameLookup = {
+slave_name_lookup = {
     'speedboat_a':128,
     'soloship_a': 1288,
     'boardship_body': 1249,
@@ -15,6 +15,10 @@ slaveNameLookup = {
     'fishboat': 1360,
     'boxship': 1205,
     'cruise_a': 1046
+}
+
+slave_model_duplicate_lookup = {
+    1360: [1383, 1384]
 }
 
 regex_pattern = re.compile("localTM: axisX\((.+)\s(.+)\s(.+)\) axisY\((.+)\s(.+)\s(.+)\) axisZ\((.+)\s(.+)\s(.+)\) trans\((.+)\s(.+)\s(.+)\)")
@@ -92,12 +96,12 @@ if __name__=="__main__":
 
         modelName = os.path.basename(filename).split('.')[0]
 
-        if modelName not in slaveNameLookup:
+        if modelName not in slave_name_lookup:
             print("Model name {} not found in slave lookup".format(modelName))
             continue
         
         data = {}
-        data['ModelId'] = slaveNameLookup[modelName]
+        data['ModelId'] = slave_name_lookup[modelName]
         data['AttachPoints'] = {}
 
         with open(filename,'r') as reader:
@@ -128,9 +132,19 @@ if __name__=="__main__":
                         "RotationY": rotation[1],
                         "RotationZ": rotation[2],
                     }
-                    
+
+        # Hard-coded value corrections
+        if slave_name_lookup[modelName] == 1360:
+            data['AttachPoints'][35]["Z"] = 5.86128
+
         output.append(data)
 
-    with open('output.json', 'w') as outfile:
+        if slave_name_lookup[modelName] in slave_model_duplicate_lookup:
+            for id in slave_model_duplicate_lookup[slave_name_lookup[modelName]]:
+                d = data.copy()
+                d['ModelId'] = id
+                output.append(d)
+
+    with open('slave_attach_points.json', 'w') as outfile:
         json.dump(output, outfile, indent=4)
 
