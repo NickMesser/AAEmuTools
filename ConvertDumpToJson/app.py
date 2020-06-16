@@ -43,7 +43,7 @@ matrix_lookup = {
     "pi/2": {"matrix": [[0.0, -1.0, 0.0], 
                         [1.0, 0.0, 0.0], 
                         [0.0, 0.0, 1.0]], 
-            "rotation": (0, 0, -64)},
+            "rotation": (0, 0, -90)}, # The maths would suggest this should be -64, but in-game it is better as -90
     "pi": {"matrix": [[-1.0, 0.0, 0.0], 
                       [0.0, -1.0, 0.0], 
                       [0.0, 0.0, 1.0]], 
@@ -51,7 +51,7 @@ matrix_lookup = {
     "3pi/2": {"matrix": [[0.0, 1.0, 0.0], 
                         [-1.0, 0.0, 0.0], 
                         [0.0, 0.0, 1.0]], 
-            "rotation": (0, 0, 64)}
+            "rotation": (0, 0, 90)} # The maths would suggest this should be -64, but in-game it is better as 90
 }
 
 def calc_rotation(axis_x, axis_y, axis_z):
